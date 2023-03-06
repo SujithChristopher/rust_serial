@@ -5,44 +5,10 @@
 use csv::Writer;
 use serialport::SerialPortBuilder;
 
-struct CsvHeaders {
-    name: String,
-    age: u8,
-    city: String,
-}
-    
-
-
-impl CsvHeaders {
-    fn new(name: String, age: u8, city: String) -> CsvHeaders {
-        CsvHeaders { name, age, city }
-    }
-
-    fn print_name(&self) {
-        println!("Name: {}", self.name);
-    }
-
-    fn print_age(&self) {
-        println!("Age: {}", self.age);
-    }
-
-    fn print_details(&self) {
-        println!("Name: {}, Age: {}, City: {}", self.name, self.age, self.city);
-    }
-
-    fn open_csv(&self) -> Writer<std::fs::File> {
-        let mut wtr = Writer::from_path("person.csv").unwrap();
-        wtr.write_record(&["Name", "Age", "City"]).unwrap();
-        wtr
-    }
-
-    fn write_row(&self, wtr: &mut Writer<std::fs::File>) {
-        wtr.write_record(&[self.name.to_owned(), self.age.to_string(), self.city.to_owned()]).unwrap();
-    }
-}
+mod csv_support;
 
 fn main() {
-    let mut person = CsvHeaders::new("John".to_string(), 25, "New York".to_string());
+    let mut person = csv_support::CsvHeaders::new("John".to_string(), 25, "New York".to_string());
     person.print_name();
     person.print_age();
     person.print_details();
